@@ -239,7 +239,9 @@ def prepare_environment():
                 if not is_installed("xformers"):
                     exit(0)
         elif platform.system() == "Linux":
-            run_pip("install xformers", "xformers")
+            run_pip("install git+https://github.com/facebookresearch/xformers.git#egg=xforme\
+rs", "xformers")
+            
 
     if not is_installed("pyngrok") and ngrok:
         run_pip("install pyngrok", "ngrok")

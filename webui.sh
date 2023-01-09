@@ -19,18 +19,7 @@ then
     source ./webui-user.sh
 fi
 
-# Set defaults
-# Install directory without trailing slash
-if [[ -z "${install_dir}" ]]
-then
-    install_dir="/home/$(whoami)"
-fi
 
-# Name of the subdirectory (defaults to stable-diffusion-webui)
-if [[ -z "${clone_dir}" ]]
-then
-    clone_dir="stable-diffusion-webui"
-fi
 
 # python3 executable
 if [[ -z "${python_cmd}" ]]
@@ -94,14 +83,11 @@ else
     printf "\n%s\n" "${delimiter}"
 fi
 
-if [[ -d .git ]]
-then
-    printf "\n%s\n" "${delimiter}"
-    printf "Repo already cloned, using it as install directory"
-    printf "\n%s\n" "${delimiter}"
-    install_dir="${PWD}/../"
-    clone_dir="${PWD##*/}"
-fi
+printf "\n%s\n" "${delimiter}"
+printf "Repo already cloned, using it as install directory"
+printf "\n%s\n" "${delimiter}"
+install_dir="${PWD}/../"
+clone_dir="${PWD##*/}"
 
 # Check prerequisites
 for preq in "${GIT}" "${python_cmd}"
@@ -122,7 +108,7 @@ then
     printf "\n%s\n" "${delimiter}"
     exit 1
 fi
-
+printf "install dir is ${install_dir}" 
 cd "${install_dir}"/ || { printf "\e[1m\e[31mERROR: Can't cd to %s/, aborting...\e[0m" "${install_dir}"; exit 1; }
 if [[ -d "${clone_dir}" ]]
 then
@@ -137,6 +123,7 @@ fi
 
 printf "\n%s\n" "${delimiter}"
 printf "Create and activate python venv"
+printf "venv_dir is ${venv_dir}"
 printf "\n%s\n" "${delimiter}"
 cd "${install_dir}"/"${clone_dir}"/ || { printf "\e[1m\e[31mERROR: Can't cd to %s/%s/, aborting...\e[0m" "${install_dir}" "${clone_dir}"; exit 1; }
 if [[ ! -d "${venv_dir}" ]]
